@@ -4,7 +4,7 @@ rm -rf out/ obj/ tmp/
 
 mkdir -p out
 echo Creating source archive...
-tar --transform "s,^\.,quicktun-`cat version`/," -czf "out/quicktun-`cat version`.tgz" . --exclude "./out" --exclude "./lib" --exclude "./debian/data"
+gtar --transform "s,^\.,quicktun-`cat version`/," -czf "out/quicktun-`cat version`.tgz" . --exclude "./out" --exclude "./lib" --exclude "./debian/data"
 
 mkdir -p obj tmp lib
 
@@ -13,7 +13,7 @@ if [ ! -e lib/libnacl.a ]; then
 	echo -n building...
 	mkdir tmp/nacl
 	cd tmp/nacl
-	wget -q -O- http://hyperelliptic.org/nacl/nacl-20090405.tar.bz2 | bunzip2 | tar -xf - --strip-components 1
+	wget -q -O- http://hyperelliptic.org/nacl/nacl-20090405.tar.bz2 | bunzip2 | gtar -xf - --strip-components 1
 	./do
 	cd ../../
 	cp tmp/nacl/build/*/lib/*/libnacl.a lib/

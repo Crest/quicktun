@@ -17,6 +17,7 @@ if [ ! -e lib/libnacl.a ]; then
 	./do
 	cd ../../
 	cp tmp/nacl/build/*/lib/*/libnacl.a lib/
+	cp tmp/nacl/build/*/lib/*/randombytes.o lib/
 	cp tmp/nacl/build/*/include/*/crypto_box.h include/
 	cp tmp/nacl/build/*/include/*/crypto_box_curve25519salsa20hmacsha512.h include/
 	cp tmp/nacl/build/*/include/*/crypto_box_curve25519xsalsa20poly1305.h include/
@@ -33,13 +34,13 @@ gcc -c -DCOMBINED_BINARY	src/proto.nacl0.c	-o obj/proto.nacl0.o
 gcc -c -DCOMBINED_BINARY	src/proto.nacltai.c	-o obj/proto.nacltai.o
 gcc -c -DCOMBINED_BINARY	src/run.combined.c	-o obj/run.combined.o
 gcc -c 				src/common.c		-o obj/common.o
-gcc -o out/quicktun.combined obj/common.o obj/run.combined.o obj/proto.raw.o obj/proto.nacl0.o obj/proto.nacltai.o obj/crypto_scalarmult_curve25519.o -lnacl
+gcc -o out/quicktun.combined obj/common.o obj/run.combined.o obj/proto.raw.o obj/proto.nacl0.o obj/proto.nacltai.o obj/crypto_scalarmult_curve25519.o lib/randombytes.o -lnacl
 
 echo Building single protocol binaries...
 gcc -o out/quicktun.raw		src/proto.raw.c
-gcc -o out/quicktun.nacl0	src/proto.nacl0.c	-lnacl
-gcc -o out/quicktun.nacltai	src/proto.nacltai.c src/crypto_scalarmult_curve25519.c	-lnacl
-gcc -o out/quicktun.keypair	src/keypair.c		-lnacl
+gcc -o out/quicktun.nacl0	src/proto.nacl0.c	lib/randombytes.o -lnacl
+gcc -o out/quicktun.nacltai	src/proto.nacltai.c src/crypto_scalarmult_curve25519.c	lib/randombytes.o -lnacl
+gcc -o out/quicktun.keypair	src/keypair.c		lib/randombytes.o -lnacl
 
 echo Building shared libraries...
 gcc -fPIC -shared -Wl,-soname,quicktun.raw -o out/libquicktun.raw src/proto.raw.c

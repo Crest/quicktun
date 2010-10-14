@@ -47,8 +47,10 @@ int main() {
 	return 0;
 }
 
+/*
 void randombytes(char* bytes) {
 	char* b;
 	srand(time(NULL));
 	for (b = bytes; b < bytes + crypto_box_SECRETKEYBYTES; b++) *b = rand() % 255;
 }
+*/

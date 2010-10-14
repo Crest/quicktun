@@ -38,8 +38,8 @@ gcc -o out/quicktun.combined obj/common.o obj/run.combined.o obj/proto.raw.o obj
 
 echo Building single protocol binaries...
 gcc -o out/quicktun.raw		src/proto.raw.c
-gcc -o out/quicktun.nacl0	src/proto.nacl0.c	lib/randombytes.o -lnacl
-gcc -o out/quicktun.nacltai	src/proto.nacltai.c src/crypto_scalarmult_curve25519.c	lib/randombytes.o -lnacl
+gcc -o out/quicktun.nacl0	src/proto.nacl0.c	-lnacl
+gcc -o out/quicktun.nacltai	src/proto.nacltai.c src/crypto_scalarmult_curve25519.c	-lnacl
 gcc -o out/quicktun.keypair	src/keypair.c		lib/randombytes.o -lnacl
 
 echo Building shared libraries...

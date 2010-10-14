@@ -25,12 +25,26 @@
 
 #include "common.c"
 
+static void hexdump(char* buf, int len) {
+	int i = 0;
+        do {
+		printf("%04x :    ", len);
+        	for ( ; i < len && len % 16 != 15; i++ ) {
+                	printf("%02x ", buf[i] );
+		}
+		printf("\n");
+	} while ( i < len );
+}
 static int encode(struct qtsession* sess, char* raw, char* enc, int len) {
+	printf("encode(sess = %p, raw = %p, enc = %p, len = %i)\n", sess, raw, enc, len);
+	printf("raw = enc =\n"); hexdump(raw, len);
 	memcpy(enc, raw, len);
 	return len;
 }
 
 static int decode(struct qtsession* sess, char* enc, char* raw, int len) {
+	printf("decode(sess = %p, enc = %p, raw = %p, len = %i)\n", sess, enc, raw, len);
+	printf("raw = enc =\n"); hexdump(raw, len);
 	memcpy(raw, enc, len);
 	return len;
 }
